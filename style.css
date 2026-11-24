@@ -1,0 +1,123 @@
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: system-ui, sans-serif;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game {
+  display: block;
+  /* Mantém 16:9 e cabe na tela (JS ajusta width/height). */
+  image-rendering: auto;
+  background: #120b1e;
+}
+
+/* ---------- Controles de toque ---------- */
+#touch { position: fixed; inset: 0; pointer-events: none; }
+#touch[hidden] { display: none; }
+
+#stick-zone {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 50%;
+  pointer-events: auto;
+}
+#stick-base {
+  position: absolute;
+  width: 150px; height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 3px solid rgba(255,255,255,.25);
+  left: 120px;
+  bottom: 40px;
+  top: auto;
+}
+#stick-knob {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 64px; height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  border: 3px solid rgba(255,255,255,.6);
+}
+
+#buttons {
+  --s: min(82px, 21vh);
+  position: absolute;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: 18px;
+  width: calc(var(--s) * 3); height: calc(var(--s) * 3);
+  pointer-events: auto;
+}
+.btn {
+  position: absolute;
+  left: calc(var(--x) * var(--s));
+  top: calc(var(--y) * var(--s));
+  width: var(--s); height: var(--s);
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,.55);
+  color: #fff;
+  font: 800 13px system-ui, sans-serif;
+  letter-spacing: .5px;
+  text-shadow: 0 1px 2px #000;
+  touch-action: none;
+}
+.btn[data-btn="soco"]  { background: rgba(230, 70, 70, .55); }
+.btn[data-btn="chute"] { background: rgba(70, 140, 235, .55); }
+.btn[data-btn="forte"] { background: rgba(240, 170, 40, .6); }
+.btn[data-btn="poder"] { background: rgba(110, 220, 255, .55); }
+.btn.on { filter: brightness(1.6); transform: scale(.94); }
+
+#pause-btn {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 64px;
+  width: 44px; height: 36px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,.4);
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  font: 800 14px system-ui, sans-serif;
+  pointer-events: auto;
+}
+
+/* ---------- Aviso para virar o celular ---------- */
+#rotate {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 18px;
+  background: #120b1e;
+  color: #fff;
+  font: 700 20px system-ui, sans-serif;
+  z-index: 10;
+}
+#rotate[hidden] { display: none; }
+#rotate .phone {
+  width: 60px; height: 100px;
+  border: 5px solid #fff;
+  border-radius: 12px;
+  animation: girar 1.6s ease-in-out infinite;
+}
+@keyframes girar {
+  0%, 20% { transform: rotate(0deg); }
+  60%, 100% { transform: rotate(-90deg); }
+}

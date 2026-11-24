@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#120b1e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Garyu Dojo</title>
+  <link rel="icon" href="assets/jessy/portrait.webp">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="game" width="1280" height="720"></canvas>
+
+    <!-- Controles de toque (só aparecem em tela de toque) -->
+    <div id="touch" hidden>
+      <div id="stick-zone"><div id="stick-base"><div id="stick-knob"></div></div></div>
+      <div id="buttons">
+        <button class="btn" data-btn="poder" style="--x:1;--y:0">PODER</button>
+        <button class="btn" data-btn="soco"  style="--x:0;--y:1">SOCO</button>
+        <button class="btn" data-btn="forte" style="--x:2;--y:1">FORTE</button>
+        <button class="btn" data-btn="chute" style="--x:1;--y:2">CHUTE</button>
+      </div>
+      <button id="pause-btn" aria-label="Pausar">II</button>
+    </div>
+  </div>
+
+  <div id="rotate" hidden>
+    <div class="phone"></div>
+    <p>Vire o celular para jogar</p>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
