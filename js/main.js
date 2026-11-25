@@ -19,6 +19,19 @@ const rotateEl = document.getElementById('rotate');
 const params = new URLSearchParams(location.search);
 const DEBUG = params.has('debug');
 
+// Safari/Chrome no celular ainda dão zoom com vários toques, mesmo com viewport fixo.
+function blockMobileZoom() {
+  if (!isTouchDevice()) return;
+  const stop = (e) => e.preventDefault();
+  for (const ev of ['gesturestart', 'gesturechange', 'gestureend']) {
+    document.addEventListener(ev, stop, { passive: false });
+  }
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+}
+blockMobileZoom();
+
 // Celular (joystick e botões na tela) ou computador (teclado). A pessoa escolhe
 // antes do menu; o jogo lembra a escolha.
 let touchMode = isTouchDevice();
@@ -194,8 +207,14 @@ function onPointer(e) {
   const i = hit(items, p);
   if (i >= 0) { menuIndex = i; activate(items, i); }
 }
-canvas.addEventListener('pointerdown', onPointer);
-touchEl.addEventListener('pointerdown', (e) => { if (screen !== 'game' || match?.over) onPointer(e); }, true);
+canvas.addEventListener('pointerdown', (e) => {
+  if (isTouchDevice()) e.preventDefault();
+  onPointer(e);
+});
+touchEl.addEventListener('pointerdown', (e) => {
+  if (isTouchDevice()) e.preventDefault();
+  if (screen !== 'game' || match?.over) onPointer(e);
+}, true);
 
 // ------------------------------------------------------------ desenho de telas
 function text(str, x, y, size, color = '#fff', align = 'center', weight = 800) {

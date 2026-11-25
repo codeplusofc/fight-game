@@ -84,6 +84,7 @@ export class TouchController {
     });
     zone.addEventListener('pointermove', (e) => {
       if (e.pointerId !== this.stickId) return;
+      e.preventDefault();
       let dx = e.clientX - this.stickOrigin.x;
       let dy = e.clientY - this.stickOrigin.y;
       const len = Math.hypot(dx, dy);
@@ -124,6 +125,7 @@ export class TouchController {
     });
     buttonsEl.addEventListener('pointermove', (e) => {
       if (!this.buttonPointers.has(e.pointerId)) return;
+      e.preventDefault();
       this.buttonPointers.set(e.pointerId, btnAt(e.clientX, e.clientY));
       refresh();
     });
