@@ -33,13 +33,13 @@ export const MOVES = {
   MTatsu: { anim: 'MTatsu', active: [2, 14], box: { x0: -150, x1: 150, y0: 90, y1: 220 }, dmg: 9, every: 160, hit: 'hit', push: 170, spin: { vx: 200, lift: 32 }, sfx: 'whoosh' },
   HTatsu: { anim: 'HTatsu', active: [2, 21], box: { x0: -150, x1: 150, y0: 90, y1: 220 }, dmg: 10, every: 160, hit: 'hit', push: 180, spin: { vx: 230, lift: 36 }, sfx: 'whoosh' },
 
-  // FORTE + PODER: Shinkyoku Ryu (raio que acerta várias vezes).
+  // PESADO + PODER: Shinkyoku Ryu (raio que acerta várias vezes).
   SuperTatsu: {
     anim: 'SuperTatsu', active: [20, 104], box: { x0: 60, x1: 290, y0: 60, y1: 230 },
     dmg: 9, every: 120, hit: 'hit', push: 90, super: true, invulnerable: [0, 24],
     lastHit: 'launch', sfx: 'super',
   },
-  // ↓ + FORTE + PODER: Kyokushin Impact (gasta 2 barras; acerta os dois lados).
+  // ↓ + PESADO + PODER: Kyokushin Impact (gasta 2 barras; acerta os dois lados).
   Ultra: {
     anim: 'Ultra', active: [12, 18], box: { x0: -260, x1: 260, y0: 0, y1: 170 },
     dmg: 110, hit: 'launch', push: 260, heavy: true, super: true, cost: 200,
@@ -48,9 +48,9 @@ export const MOVES = {
 };
 
 // Golpes do Gui (karatê Kyokushin). Mesmos botões, golpes dele:
-//   SOCO jab / cross, FORTE gyaku zuki, CHUTE mae geri, ↓+CHUTE low sweep,
+//   SOCO jab / cross, PESADO gyaku zuki, CHUTE mae geri, ↓+CHUTE low sweep,
 //   PODER shuto uchi (onda), ↑+PODER kyokushin impact, ↓+PODER tatsumaki geri,
-//   FORTE+PODER shinkyoku ryu (super: raio gigante).
+//   PESADO+PODER shinkyoku ryu (super: raio gigante).
 export const GUI_MOVES = {
   LP: { anim: 'LP', active: [2, 4], box: { x0: 60, x1: 165, y0: 185, y1: 240 }, dmg: 10, hit: 'hit', push: 140, sfx: 'whoosh' },
   MP: { anim: 'MP', active: [3, 5], box: { x0: 70, x1: 155, y0: 150, y1: 210 }, dmg: 20, hit: 'hit', push: 190, sfx: 'whoosh' },
@@ -101,7 +101,7 @@ export const KAUA_MOVES = {
   MTatsu: { anim: 'MTatsu', active: [2, 14], box: { x0: -180, x1: 180, y0: 120, y1: 260 }, dmg: 9, every: 160, hit: 'hit', push: 170, spin: { vx: 200, lift: 32 }, sfx: 'whoosh' },
   HTatsu: { anim: 'HTatsu', active: [2, 21], box: { x0: -180, x1: 180, y0: 120, y1: 260 }, dmg: 10, every: 160, hit: 'hit', push: 180, spin: { vx: 230, lift: 36 }, sfx: 'whoosh' },
 
-  // FORTE + PODER: aura roxa e rajada de chutes de energia.
+  // PESADO + PODER: aura roxa e rajada de chutes de energia.
   SuperTatsu: {
     anim: 'SuperTatsu', active: [20, 104], box: { x0: 40, x1: 235, y0: 60, y1: 265 },
     dmg: 9, every: 120, hit: 'hit', push: 90, super: true, invulnerable: [0, 24],
@@ -132,24 +132,21 @@ export function hurtboxes(standHeight) {
 // Lista de golpes para a tela "COMO JOGAR" (comando -> nome do golpe).
 export const MOVE_LIST = {
   jessy: [
-    ['SOCO', 'Jab'], ['→ + SOCO', 'Cross'], ['FORTE', 'Gyaku Zuki (derruba)'], ['↓ + FORTE', 'Mawashi Geri'],
+    ['SOCO', 'Jab'], ['→ + SOCO', 'Cross'], ['PESADO', 'Gyaku Zuki (derruba)'], ['↓ + PESADO', 'Mawashi Geri'],
     ['CHUTE', 'Mae Geri (joga para cima)'], ['↓ + CHUTE', 'Low Sweep (golpe baixo)'],
     ['PODER', 'Shuto Uchi (onda de energia)'], ['↑ + PODER', 'Mawashi Geri Especial'], ['↓ + PODER', 'Tatsumaki Geri (redemoinho)'],
-    ['FORTE + PODER', 'SUPER: Shinkyoku Ryu (1 barra)'], ['↓ + FORTE + PODER', 'ULTRA: Kyokushin Impact (2 barras)'],
+    ['PESADO + PODER', 'SUPER: Shinkyoku Ryu (1 barra)'], ['↓ + PESADO + PODER', 'ULTRA: Kyokushin Impact (2 barras)'],
   ],
   gui: [
-    ['SOCO', 'Jab'], ['→ + SOCO', 'Cross'], ['FORTE', 'Gyaku Zuki (derruba)'], ['↓ + FORTE', 'Mae Geri alto'],
+    ['SOCO', 'Jab'], ['→ + SOCO', 'Cross'], ['PESADO', 'Gyaku Zuki (derruba)'], ['↓ + PESADO', 'Mae Geri alto'],
     ['CHUTE', 'Mae Geri (joga para cima)'], ['↓ + CHUTE', 'Low Sweep (golpe baixo)'],
     ['PODER', 'Shuto Uchi (onda de energia)'], ['↑ + PODER', 'Kyokushin Impact (soco no chão)'], ['↓ + PODER', 'Tatsumaki Geri (redemoinho)'],
-    ['FORTE + PODER', 'SUPER: Shinkyoku Ryu (1 barra)'],
+    ['PESADO + PODER', 'SUPER: Shinkyoku Ryu (1 barra)'],
   ],
   kaua: [
-    ['SOCO', 'Jab'], ['→ + SOCO', 'Cross'], ['FORTE', 'Cross pesado (derruba)'], ['↓ + FORTE', 'High Kick giratório'],
+    ['SOCO', 'Jab'], ['→ + SOCO', 'Cross'], ['PESADO', 'Cross pesado (derruba)'], ['↓ + PESADO', 'High Kick giratório'],
     ['CHUTE', 'High Kick (joga para cima)'], ['↓ + CHUTE', 'Low Kick (golpe baixo)'],
     ['PODER', 'Soco de energia roxa'], ['↑ + PODER', 'Chute de energia (sobe)'], ['↓ + PODER', 'Redemoinho de chutes'],
-    ['FORTE + PODER', 'SUPER: Rajada de energia (1 barra)'],
+    ['PESADO + PODER', 'SUPER: Rajada de energia (1 barra)'],
   ],
 };
-
-// Tom de voz de cada lutador (para os gritos de luta).
-export const VOICE = { jessy: 290, gui: 135, kaua: 165 };

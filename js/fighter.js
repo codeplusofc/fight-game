@@ -2,7 +2,7 @@ import {
   GROUND, WALL_LEFT, WALL_RIGHT, MAX_HP, SUPER_MAX, SUPER_COST,
   GRAVITY, WALK_FWD, WALK_BACK, JUMP_VY, JUMP_VX, ANIM_SPEED,
 } from './config.js';
-import { MOVESETS, hurtboxes, VOICE } from './moves.js';
+import { MOVESETS, hurtboxes } from './moves.js';
 import { sfx } from './audio.js';
 
 const CONTROLLABLE = new Set(['idle', 'walkF', 'walkB', 'crouch']);
@@ -17,7 +17,6 @@ export class Fighter {
   constructor(char, opts) {
     this.char = char;
     this.moves = MOVESETS[char.name];
-    this.voice = VOICE[char.name] || 200;
     this.hurt = hurtboxes(char.standHeight);
     this.label = opts.label;
     this.color = opts.color;
@@ -201,12 +200,6 @@ export class Fighter {
     this.vx = 0;
     this.play(m.anim);
     if (m.sfx) sfx(m.sfx === 'whoosh' && m.heavy ? 'whooshHeavy' : m.sfx);
-    // Gritos de luta.
-    const especiais = ['Hadoken', 'Shoryuken', 'LTatsu', 'MTatsu', 'HTatsu'];
-    if (m.super) sfx('kiaiSuper', this.voice);
-    else if (especiais.includes(name)) sfx('kiai', this.voice);
-    else if (['HP', 'HK', 'MK'].includes(name)) { if (Math.random() < 0.7) sfx('kiaiCurto', this.voice); }
-    else if (Math.random() < 0.3) sfx('kiaiCurto', this.voice);
     this.buffer = [];
   }
 
@@ -388,7 +381,6 @@ export class Fighter {
     sfx(forte ? 'hitHeavy' : 'hitLight');
 
     if (this.hp <= 0) { this.knockOut(dir); return 'hit'; }
-    if (forte || Math.random() < 0.6) sfx(forte ? 'dorForte' : 'dor', this.voice);
 
     let reaction = move.hit;
     if (isLastHit && move.lastHit) reaction = move.lastHit;
@@ -412,7 +404,6 @@ export class Fighter {
   }
 
   knockOut(dir) {
-    sfx('derrota', this.voice);
     this.state = 'lose';
     this.move = null;
     this.play('Lose');
@@ -421,7 +412,6 @@ export class Fighter {
   }
 
   win() {
-    sfx('vitoria', this.voice);
     this.state = 'win';
     this.move = null;
     this.vx = 0;

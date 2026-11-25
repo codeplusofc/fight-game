@@ -34,18 +34,18 @@ Ao abrir, o jogo pergunta se você vai jogar no **celular** ou no **computador**
 No menu, a opção **COMO JOGAR** mostra os golpes de cada lutador.
 
 **Teclado:**
-- Jogador 1: `A`/`D` andar, `W` pular, `S` agachar, `J` soco, `K` chute, `L` forte, `I` poder
-- Jogador 2: setas, `N` soco, `M` chute, `,` forte, `.` poder
+- Jogador 1: `A`/`D` andar, `W` pular, `S` agachar, `J` soco, `K` chute, `L` pesado, `I` poder
+- Jogador 2: setas, `N` soco, `M` chute, `,` pesado, `.` poder
 - `ESC` pausa, `M` liga/desliga o som
 
-**Celular:** joystick à esquerda e botões SOCO, CHUTE, FORTE e PODER à direita.
+**Celular:** joystick à esquerda e botões SOCO, CHUTE, PESADO e PODER à direita.
 
 | Comando | O que faz |
 |---|---|
 | PODER | energia (bola/onda) |
 | ↑ + PODER | golpe especial que sobe |
 | ↓ + PODER | redemoinho de chutes |
-| FORTE + PODER | SUPER (barra cheia) |
+| PESADO + PODER | SUPER (barra cheia) |
 | segurar para trás | defender |
 | tocar 2x para frente/trás | dash |
 
@@ -58,6 +58,10 @@ No menu, a opção **COMO JOGAR** mostra os golpes de cada lutador.
 | Lutadores que aparecem na escolha | `ROSTER` em `js/main.js` |
 | Como a CPU luta | `js/ai.js` |
 | Cenário | `js/stage.js` |
-| Sons e vozes | `js/audio.js` |
+| Sons | `js/audio.js` (gravações em `assets/sons`) |
 
 Os desenhos dos lutadores (`assets/<nome>/`) são gerados a partir dos PNGs originais pelo script `tools/export_web.py` do projeto original.
+
+## Créditos
+
+Sons de impacto: "37 hits/punches" de Independent.nu, licença CC0 (domínio público) — <https://opengameart.org/content/37-hitspunches>.

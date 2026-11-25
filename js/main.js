@@ -1,5 +1,5 @@
 import { W, H, GAME_TITLE } from './config.js';
-import { loadCharacter } from './assets.js';
+import { loadCharacter, webpSupported } from './assets.js';
 import { KeyboardController, TouchController, MergedController, isTouchDevice, onKey } from './input.js';
 import { CpuController } from './ai.js';
 import { Match } from './game.js';
@@ -249,11 +249,10 @@ function drawTitle(t) {
   ctx.fillStyle = 'rgba(10,4,20,.45)';
   ctx.fillRect(0, 0, W, H);
   // Um lutador de cada lado, olhando para o meio.
-  const bob = Math.sin(t / 500) * 4;
   const a = chars[0];
   const b = chars[1 % chars.length];
-  drawFullBody(a.select, 190, H + bob, 540, false);
-  drawFullBody(b.select, W - 190, H - bob, 560, true);
+  drawFullBody(a.select, 190, H, 540, false);
+  drawFullBody(b.select, W - 190, H, 560, true);
 
   ctx.save();
   ctx.translate(W / 2, 150);
@@ -265,8 +264,8 @@ function drawTitle(t) {
   drawButtons(menuItems, W / 2, 222, 420, 54, 12);
 
   const help = touchMode
-    ? ['Joystick: andar / pular / agachar', 'PODER = energia   ↑+PODER = especial   ↓+PODER = redemoinho', 'Barra SUPER cheia: FORTE + PODER juntos']
-    : ['P1: WASD andar   J soco   K chute   L forte   I poder', 'P2: setas   N soco   M chute   , forte   . poder', '↑+PODER especial   ↓+PODER redemoinho   FORTE+PODER super   ESC pausa'];
+    ? ['Joystick: andar / pular / agachar', 'PODER = energia   ↑+PODER = especial   ↓+PODER = redemoinho', 'Barra SUPER cheia: PESADO + PODER juntos']
+    : ['P1: WASD andar   J soco   K chute   L pesado   I poder', 'P2: setas   N soco   M chute   , pesado   . poder', '↑+PODER especial   ↓+PODER redemoinho   PESADO+PODER super   ESC pausa'];
   help.forEach((l, i) => text(l, W / 2, H - 92 + i * 30, 20, '#ffe9c7', 'center', 700));
 }
 
@@ -300,8 +299,7 @@ function drawSelect(t) {
     ctx.beginPath();
     ctx.roundRect(r.x, r.y, r.w, r.h, 18);
     ctx.clip();
-    const bob = sel ? Math.sin(t / 300) * 4 : 0;
-    drawFullBody(c.select, r.x + r.w / 2, r.y + r.h - 70 + bob, 380, i % 2 === 1);
+    drawFullBody(c.select, r.x + r.w / 2, r.y + r.h - 70, 380, i % 2 === 1);
     ctx.restore();
     text(c.displayName, r.x + r.w / 2, r.y + r.h - 22, 38, sel ? '#ffd46b' : '#fff', 'center', 900);
     // Marca de quem já escolheu este lutador.
@@ -342,9 +340,9 @@ function drawHelp() {
   text('CONTROLES', 290, 140, 28, '#ffd46b', 'center', 900);
   const linhas = touchMode
     ? [['Joystick ← →', 'andar'], ['Joystick ↑', 'pular'], ['Joystick ↓', 'agachar'],
-      ['SOCO  CHUTE', 'golpes rápidos'], ['FORTE', 'golpe forte'], ['PODER', 'golpes especiais'], ['II', 'pausa']]
+      ['SOCO  CHUTE', 'golpes rápidos'], ['PESADO', 'golpe pesado'], ['PODER', 'golpes especiais'], ['II', 'pausa']]
     : [['A  D', 'andar (P1)'], ['W', 'pular'], ['S', 'agachar'],
-      ['J  K  L  I', 'soco, chute, forte, poder'], ['P2: setas', 'N  M  ,  .'], ['ESC', 'pausa'], ['M', 'liga/desliga o som']];
+      ['J  K  L  I', 'soco, chute, pesado, poder'], ['P2: setas', 'N  M  ,  .'], ['ESC', 'pausa'], ['M', 'liga/desliga o som']];
   linhas.forEach(([k, v], i) => {
     text(k, 60, 190 + i * 40, 22, '#9fe3ff', 'left', 800);
     text(v, 250, 190 + i * 40, 22, '#fff', 'left', 700);
@@ -507,10 +505,12 @@ function frame(now) {
 requestAnimationFrame(frame);
 
 const parts = ROSTER.map(() => 0);
-Promise.all(ROSTER.map((name, i) => loadCharacter(name, (p) => {
+webpSupported().then((ok) => {
+  if (!ok) throw new Error('Este navegador não abre imagens WebP. Atualize o celular (iPhone: iOS 14 ou mais novo) ou use o Chrome.');
+}).then(() => Promise.all(ROSTER.map((name, i) => loadCharacter(name, (p) => {
   parts[i] = p;
   progress = parts.reduce((s, v) => s + v, 0) / parts.length;
-})))
+}))))
   .then((loaded) => {
     chars = loaded;
     const saved = savedControlMode();
@@ -533,5 +533,8 @@ Promise.all(ROSTER.map((name, i) => loadCharacter(name, (p) => {
     screen = 'error';
     ctx.fillStyle = '#300';
     ctx.fillRect(0, 0, W, H);
-    text('Erro ao carregar: ' + err.message, W / 2, H / 2, 28);
+    text('Ops! Não deu para carregar o jogo.', W / 2, H / 2 - 50, 36, '#ffd46b');
+    text(err.message, W / 2, H / 2 + 5, 22);
+    text('Toque na tela para tentar de novo', W / 2, H / 2 + 70, 26, '#9fe3ff');
+    canvas.addEventListener('pointerdown', () => location.reload(), { once: true });
   });
